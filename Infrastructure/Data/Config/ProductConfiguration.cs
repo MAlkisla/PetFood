@@ -14,7 +14,7 @@ namespace Infrastructure.Data.Config
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.Property(x => x.Name).IsRequired(true).HasMaxLength(50);
+            builder.Property(x => x.Name).IsRequired(true).HasMaxLength(100);
             //builder.Property(x => x.Price).IsRequired(true);
             builder.Property(x => x.PictureUri).IsRequired(true);
             builder.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
