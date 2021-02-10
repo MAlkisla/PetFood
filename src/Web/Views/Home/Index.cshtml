@@ -2,9 +2,55 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@foreach (var product in Model.Products)
-{
-    <div>
-        @product.Id - @product.Name - @product.Price - @product.PictureUri
-    </div>
-}
+
+@*<div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+        <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+        </div>
+    </div>*@
+
+<form class="form-inline my-2">
+    <label asp-for="CategoryId">Category</label>
+    <select class="form-control ml-2" asp-for="CategoryId" asp-items="Model.Categories">
+        <option>All</option>
+    </select>
+    <label class="ml-4" asp-for="BrandId">Brand</label>
+    <select class="form-control ml-2" asp-for="BrandId" asp-items="Model.Brands">
+        <option>All</option>
+    </select>
+</form>
+
+
+
+<div class="row">
+    @foreach (var product in Model.Products)
+    {
+        <div class="col-6 col-md-4 col-lg-3">
+            <div class="card mb-2">
+                <img src="~/images/@product.PictureUri" class="card-img-top" alt="@product.Name">
+                <div class="card-body">
+                    <p class="home-product-name">@product.Name</p>
+                    <div class="d-flex align-items-baseline">
+                        <p class="home-product-price">$@product.Price.ToString("n2")</p>
+                        <a href="#" class="btn btn-success float-right ml-auto"><i class="fas fa-cart-plus"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script>
+        $("#BrandId, #CategoryId").change(function () {
+            $(this).closest("form").submit();
+        });
+    </script>
+} 
+
