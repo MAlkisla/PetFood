@@ -10,9 +10,9 @@ namespace ApplicationCore.Specifications
 {
     public class ProductsFilterPaginatedSpecification : Specification<Product>
     {
-        public ProductsFilterPaginatedSpecification(int? categoryId, int? brandId) : base()
+        public ProductsFilterPaginatedSpecification(int? categoryId, int? brandId, int skip, int take) : base()
         {
-            Query.Where(x => (!categoryId.HasValue || x.CategoryId == categoryId) && (!brandId.HasValue || x.BrandId == brandId));
+            Query.Where(x => (!categoryId.HasValue || x.CategoryId == categoryId) && (!brandId.HasValue || x.BrandId == brandId)).Skip(skip).Take(take);
         }
     }
 }
