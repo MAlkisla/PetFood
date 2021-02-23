@@ -8,6 +8,7 @@ namespace Web.Interfaces
 {
     public interface IBasketViewModelService
     {
+        Task<BasketViewModel> GetBasket(string buyerId);
         Task<ProductViewModel> GetProductDetails(int productId);
     }
 }
