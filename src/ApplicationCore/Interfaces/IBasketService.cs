@@ -16,5 +16,6 @@ namespace ApplicationCore.Interfaces
         Task<int> CreateBasketAsync(string buyerId);
 
         Task<int> GetBasketIdAsync(string buyerId);
+        Task<int> BasketItemsCount(string buyerId);
     }
 }
