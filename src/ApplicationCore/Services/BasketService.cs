@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Services
 {
-    class BasketService : IBasketService
+    public class BasketService : IBasketService
     {
         private readonly IAsyncRepository<Basket> _basketRepository;
 
@@ -17,9 +17,29 @@ namespace ApplicationCore.Services
         {
             _basketRepository = basketRepository;
         }
-        public Task AddItemToBasketAsync(int basketId, int productId, decimal price, int quantity = 1)
+        public async Task<int> AddItemToBasketAsync(int basketId, int productId, decimal price, int quantity = 1)
         {
-            throw new NotImplementedException();
+            //get basket with items
+            var spec = new BasketWithItemsSpecification(basketId);
+            Basket basket = await _basketRepository.FirstOrDefaultAsync(spec);
+            //get basket item if exists
+            BasketItem basketItem = basket.Items.FirstOrDefault(x => x.ProductId == productId);
+            //if exists increase quantity
+            if (basketItem !=null)
+            {
+                basketItem.Quantity += quantity;
+            }
+            //if not exists add new basket item
+            else
+            {
+                basketItem = new BasketItem() { BasketId = basketId, ProductId = productId, Quantity = quantity, UnitPrice = price };
+                basket.Items.Add(basketItem);
+            }
+
+            //update basket
+            await _basketRepository.UpdateAsync(basket);
+
+            return basket.Items.Count;
         }
 
         public async Task<bool> BasketExistsAsync(string buyerId)
@@ -27,9 +47,18 @@ namespace ApplicationCore.Services
             return await _basketRepository.CountAsync(new BasketExistsSpecification(buyerId)) > 0;
         }
 
-        public Task<int> CreateBasketAsync(string buyerId)
+        public async Task<int> CreateBasketAsync(string buyerId)
         {
-            throw new NotImplementedException();
+            Basket basket = new Basket() { BuyerId = buyerId };
+            basket = await _basketRepository.AddAsync(basket);
+            return basket.Id;
+        }
+
+        public async Task<int> GetBasketIdAsync(string buyerId)
+        {
+            var basket = await _basketRepository.FirstAsync(new BasketExistsSpecification(buyerId));
+            return basket.Id;
         }
     }
+
 }

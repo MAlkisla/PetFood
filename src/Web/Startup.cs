@@ -1,4 +1,5 @@
 using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
 using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
@@ -48,6 +49,7 @@ namespace Web
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EFRepository<>));
             services.AddScoped<IHomeIndexViewModelService, HomeIndexViewModelService>();
             services.AddScoped<IBasketViewModelService, BasketViewModelService>();
+            services.AddScoped<IBasketService, BasketService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
