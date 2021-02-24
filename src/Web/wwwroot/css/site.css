@@ -86,3 +86,7 @@ body {
 .form-control.quantity {
     width: 80px;
 }
+
+.toast-top-right{
+    top: 69px;
+}
