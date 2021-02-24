@@ -57,6 +57,12 @@ namespace Web.Controllers
             return Json(new { BasketItemCount = count});
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateQuantity(int productId, int quantity)
+        {
+            var userId = GetOrCreateUserId();
+            return Json(await _basketViewModelService.UpdateQuantity(userId,productId,quantity));
+        }
         private string GetOrCreateUserId()
         {
             if (_signInManager.IsSignedIn(User))
